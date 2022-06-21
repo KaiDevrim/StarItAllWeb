@@ -1,89 +1,23 @@
-@page
-@model StarItAll.Views.Home.IndexModel
-<div class="row">
-        @if (!User.Identity.IsAuthenticated)
-        {
-            <a class="btn btn-outline-primary" asp-controller="Auth" asp-action="Login"><strong>Login with GitHub</strong></a>
-        }
-        else
-        {
-            <div id="accordion" class="container-fluid">
-                <div class="card">
-                    <div class="card-header" id="headingOne">
-                        <h5 class="mb-0">
-                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapse-repos" aria-expanded="true" aria-controls="collapse-repos">
-                                Repos
-                            </button>
-                        </h5>
-                    </div>
-                    <div id="collapse-repos" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                        <div class="card-body">
-                            <ul>
-                                @foreach (var repo in Model.Repositories)
-                                {
-                                    <li><a href="@repo.HtmlUrl">@repo.FullName</a></li>
-                                }
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header" id="headingTwo">
-                        <h5 class="mb-0">
-                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse-starred" aria-expanded="false" aria-controls="collapse-starred">
-                                Starred Repositories
-                            </button>
-                        </h5>
-                    </div>
-                    <div id="collapse-starred" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                        <div class="card-body">
-                            <ul>
-                                @foreach (var repo in Model.StarredRepos)
-                                {
-                                    <li><a href="@repo.HtmlUrl">@repo.FullName</a></li>
-                                }
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header" id="headingThree">
-                        <h5 class="mb-0">
-                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse-followers" aria-expanded="false" aria-controls="collapse-followers">
-                                Followers
-                            </button>
-                        </h5>
-                    </div>
-                    <div id="collapse-followers" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                        <div class="card-body">
-                            <ul>
-                                @foreach (var follower in Model.Followers)
-                                {
-                                    <li><a href="@follower.HtmlUrl">@follower.Login</a></li>
-                                }
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header" id="headingFour">
-                        <h5 class="mb-0">
-                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse-following" aria-expanded="false" aria-controls="collapse-following">
-                                Following
-                            </button>
-                        </h5>
-                    </div>
-                    <div id="collapse-following" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
-                        <div class="card-body">
-                            <ul>
-                                @foreach (var follower in Model.Followers)
-                                {
-                                    <li><a href="@follower.HtmlUrl">@follower.Login</a></li>
-                                }
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
+@model IEnumerable<Octokit.Repository>
+
+@{
+    ViewBag.Title = "StarItAll";
+}
+
+<h1>StarItAll</h1>
+
+<div>
+    <form method="post">
+    <div>
+        <label for="user">Name of User:</label>
+        <input type="text" name="user" value=""/>
+        <input type="submit" value="Submit" class="submit"/>
     </div>
+    </form>
+    <ul>
+        @foreach (var repo in Model)
+        {
+            <li> @repo.Name </li>
+        }
+    </ul>
+</div>
