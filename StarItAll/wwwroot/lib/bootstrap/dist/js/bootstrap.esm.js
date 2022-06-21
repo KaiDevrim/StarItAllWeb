@@ -3036,6 +3036,7 @@ class Modal extends BaseComponent {
     _isAnimated() {
         return this._element.classList.contains(CLASS_NAME_FADE$3);
     }
+
     // the following methods are used to handle overflowing modals
     // ----------------------------------------------------------------------
 
