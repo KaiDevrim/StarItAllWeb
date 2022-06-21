@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarItAll", "StarItAll\StarItAll.csproj", "{1A6C4061-CE75-458B-BAEC-70E766D43E9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarItAllTest", "StarItAllTest\StarItAllTest.csproj", "{566039BB-3EF5-4DB9-8264-3417AE40C4B5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1A6C4061-CE75-458B-BAEC-70E766D43E9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A6C4061-CE75-458B-BAEC-70E766D43E9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A6C4061-CE75-458B-BAEC-70E766D43E9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A6C4061-CE75-458B-BAEC-70E766D43E9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{566039BB-3EF5-4DB9-8264-3417AE40C4B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{566039BB-3EF5-4DB9-8264-3417AE40C4B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{566039BB-3EF5-4DB9-8264-3417AE40C4B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{566039BB-3EF5-4DB9-8264-3417AE40C4B5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
