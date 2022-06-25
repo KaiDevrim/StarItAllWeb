@@ -1,5 +1,4 @@
-@model IEnumerable<Octokit.Repository>
-
+@model IndexViewModel
 @{
     ViewBag.Title = "StarItAll";
 }
@@ -7,17 +6,17 @@
 <h1>StarItAll</h1>
 
 <div>
-    <form method="post">
-    <div>
-        <label for="user">Name of User:</label>
-        <input type="text" name="user" value=""/>
-        <input type="submit" value="Submit" class="submit"/>
-    </div>
-    </form>
-    <ul>
-        @foreach (var repo in Model)
-        {
-            <li> @repo.Name </li>
-        }
-    </ul>
+    <label>User</label>
+    @using (Html.BeginForm())
+    {
+        <input type="text" name="user" placeholder="KaiDevrim" data-val="true" data-val-length="The field User must be a string with a maximum length of 39."
+               data-val-length-max="39" data-val-required="The User field is required." maxlength="39"/>
+        <br/>
+        <input type="submit"/>
+    }
+    
+    @if (Model.ErrorMessage != String.Empty)
+    {
+        <h1>@Model.ErrorMessage</h1>
+    }
 </div>
