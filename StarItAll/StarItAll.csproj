@@ -14,4 +14,8 @@
         <PackageReference Include="Owin.Security.Providers.GitHub" Version="2.26.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\js\site.js" />
+    </ItemGroup>
+
 </Project>

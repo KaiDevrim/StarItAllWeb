@@ -8,15 +8,16 @@ using Activity = System.Diagnostics.Activity;
 public class HomeController : Controller
 {
     private readonly GitHubClient _client = new(new ProductHeaderValue("StarItAllWeb"));
-    private readonly ILogger<HomeController> _logger;
     private readonly IConfiguration _config;
-    private IndexViewModel model = new IndexViewModel();
+    private readonly ILogger<HomeController> _logger;
+    private readonly IndexViewModel model = new();
 
     public HomeController(ILogger<HomeController> logger, IConfiguration config)
     {
         _logger = logger;
         _config = config;
     }
+
     public async Task<ActionResult> Index()
     {
         var accessToken = HttpContext.Session.GetString("OAuthToken");
@@ -24,7 +25,7 @@ public class HomeController : Controller
         if (accessToken == null) return Redirect(GetOauthLoginUrl());
         try
         {
-            model.ErrorMessage = String.Empty;
+            model.ErrorMessage = string.Empty;
             return View(model);
         }
         catch (AuthorizationException)
@@ -58,6 +59,7 @@ public class HomeController : Controller
         var oauthLoginUrl = _client.Oauth.GetGitHubLoginUrl(request);
         return oauthLoginUrl.ToString();
     }
+
     [HttpPost]
     public async Task<ActionResult> Index([FromForm] string user)
     {
@@ -67,10 +69,7 @@ public class HomeController : Controller
         try
         {
             var repos = await _client.Repository.GetAllForUser(user);
-            foreach (var repo in repos)
-            {
-                await _client.Activity.Starring.StarRepo(user, repo.Name);
-            }
+            foreach (var repo in repos) await _client.Activity.Starring.StarRepo(user, repo.Name);
 
             model.Username = user;
             model.AvatarUrl = _client.User.Get(user).Result.AvatarUrl;
@@ -93,6 +92,11 @@ public class HomeController : Controller
             model.ErrorMessage = "Not authorized";
             return View(model);
         }
+        catch (ArgumentNullException)
+        {
+            model.ErrorMessage = "Please enter a valid username";
+            return View(model);
+        }
         catch (Exception e)
         {
             model.ErrorMessage += "Please report this error to kai@devrim.tech";
@@ -100,6 +104,7 @@ public class HomeController : Controller
             return View(model);
         }
     }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
