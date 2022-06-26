@@ -1,0 +1,92 @@
+html {
+    font-size: 14px;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+    aside {
+        font-size: 8px;
+    }
+}
+
+html {
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
+    font-weight: 400;
+    color: #000;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: linear-gradient(90deg,#4ca1af,#2c3e50);
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+#submit {
+    margin-top: 20px;
+    display: inline-block;
+    outline: 0;
+    cursor: pointer;
+    border: none;
+    padding: 0 56px;
+    height: 45px;
+    line-height: 45px;
+    border-radius: 7px;
+    background-color: #0070f3;
+    color: white;
+    font-weight: 400;
+    font-size: 16px;
+    box-shadow: 0 4px 14px 0 rgb(0 118 255 / 39%);
+    transition: background 0.2s ease,color 0.2s ease,box-shadow 0.2s ease;
+}
+
+#submit:hover{
+    background: rgba(0,118,255,0.9);
+    box-shadow: 0 6px 20px rgb(0 118 255 / 23%);
+}
+
+#input {
+    padding: 5px 12px;
+    font-size: 14px;
+    line-height: 20px;
+    color: #24292e;
+    vertical-align: middle;
+    background-color: #ffffff;
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    border: 1px solid #e1e4e8;
+    border-radius: 6px;
+    outline: none;
+    box-shadow: rgba(225, 228, 232, 0.2) 0px 1px 0px 0px inset;
+}
+
+#input:focus{
+    border-color: #0366d6;
+    outline: none;
+    box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+}
+
+#page {
+    margin-top: 10%;
+    padding-left: 5%;
+    margin-left: 20%;
+    margin-right: 20%;
+    padding-right: 5%;
+    background: #98d8e3;
+    overflow-y: hidden;
+    border: 4px solid #000;
+    line-height: 1.8;
+    padding-bottom: 20px;
+}
+
+aside {
+    font-size: 10px;
+}

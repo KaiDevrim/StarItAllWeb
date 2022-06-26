@@ -2,21 +2,40 @@
 @{
     ViewBag.Title = "StarItAll";
 }
-
-<h1>StarItAll</h1>
-
-<div>
-    <label>User</label>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>StarItAll</title>
+    <link href="~/site.css" rel="stylesheet" type="text/css"/>
+    <script src="~/site.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="page">
+    <h1>StarItAll</h1>
+    <p>Enter a valid GitHub username to star all of their repositories!</p>
     @using (Html.BeginForm())
     {
         <input type="text" name="user" placeholder="KaiDevrim" data-val="true" data-val-length="The field User must be a string with a maximum length of 39."
-               data-val-length-max="39" data-val-required="The User field is required." maxlength="39"/>
+               data-val-length-max="39" data-val-required="The User field is required." maxlength="39" id="input"/>
         <br/>
-        <input type="submit"/>
+        <input type="submit" id="submit" value="Star It All"/>
     }
-
+    <aside id="warnings">If you logged in already, you may need to re-enter the submit. Also users with a large amount of repositories may take a long while, just be patient.</aside>
+    <br/>
+    
     @if (Model.ErrorMessage != string.Empty)
     {
         <h1>@Model.ErrorMessage</h1>
     }
+    @if (Model.Starred.Any())
+    {
+        <p>Starred the following repos: </p>
+        @foreach (var repo in Model.Starred)
+        {
+            <a href="@repo.HtmlUrl">@repo.Name</a>
+            <br/>
+        }
+    }
 </div>
+</body>
+</html>
