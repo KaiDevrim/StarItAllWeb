@@ -5,8 +5,8 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-      <UserSecretsId>0979323a-55b1-4d63-ba90-be94b8038e80</UserSecretsId>
-  </PropertyGroup>
+        <UserSecretsId>0979323a-55b1-4d63-ba90-be94b8038e80</UserSecretsId>
+    </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Newtonsoft.Json" Version="13.0.2-beta1" />
@@ -15,7 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <_ContentIncludedByDefault Remove="wwwroot\js\site.js" />
+        <_ContentIncludedByDefault Remove="wwwroot\js\site.js" />
     </ItemGroup>
 
 </Project>

@@ -1,5 +1,6 @@
 ﻿namespace StarItAll.Controllers;
 
+using System.Security.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Octokit;
@@ -10,7 +11,7 @@ public class HomeController : Controller
     private readonly GitHubClient _client = new(new ProductHeaderValue("StarItAllWeb"));
     private readonly IConfiguration _config;
     private readonly ILogger<HomeController> _logger;
-    private readonly IndexViewModel model = new();
+    private readonly IndexViewModel _model = new();
 
     public HomeController(ILogger<HomeController> logger, IConfiguration config)
     {
@@ -24,9 +25,9 @@ public class HomeController : Controller
         if (accessToken != null) _client.Credentials = new Credentials(accessToken);
         try
         {
-            model.ErrorMessage = string.Empty;
-            model.Starred = new List<Repository>();
-            return View(model);
+            _model.ErrorMessage = string.Empty;
+            _model.Starred = new List<Repository>();
+            return View(_model);
         }
         catch (AuthorizationException)
         {
@@ -38,9 +39,26 @@ public class HomeController : Controller
     {
         if (!string.IsNullOrEmpty(code))
         {
-            var token = await _client.Oauth.CreateAccessToken(
-                new OauthTokenRequest(_config["ClientId"], _config["ClientSecret"], code));
-            HttpContext.Session.SetString("OAuthToken", token.AccessToken);
+            if (Environment.GetEnvironmentVariable("ClientId") != null &&
+                Environment.GetEnvironmentVariable("ClientSecret") != null &&
+                Environment.GetEnvironmentVariable("CSRF") != null)
+            {
+                var token = await _client.Oauth.CreateAccessToken(
+                    new OauthTokenRequest(Environment.GetEnvironmentVariable("ClientId"),
+                        Environment.GetEnvironmentVariable("ClientSecret"), code));
+                HttpContext.Session.SetString("OAuthToken", token.AccessToken);
+            }
+            else if (_config["ClientId"] != null && _config["ClientSecret"] != null && _config["CSRF"] != null)
+            {
+                var token = await _client.Oauth.CreateAccessToken(
+                    new OauthTokenRequest(_config["ClientId"], _config["ClientSecret"], code));
+                HttpContext.Session.SetString("OAuthToken", token.AccessToken);
+            }
+            else
+            {
+                throw new AuthenticationException(
+                    "Did not set the ClientId or Client in your config or environment variables.");
+            }
         }
 
         return RedirectToAction("Index");
@@ -66,48 +84,45 @@ public class HomeController : Controller
         var accessToken = HttpContext.Session.GetString("OAuthToken");
         if (accessToken != null) _client.Credentials = new Credentials(accessToken);
         if (accessToken == null) return Redirect(GetOauthLoginUrl());
-        model.Starred = new List<Repository>();
+        _model.Starred = new List<Repository>();
         try
         {
             var repos = await _client.Repository.GetAllForUser(user);
             foreach (var repo in repos)
             {
                 await _client.Activity.Starring.StarRepo(user, repo.Name);
-                model.Starred.Add(repo);
+                _model.Starred.Add(repo);
             }
 
-            model.Username = user;
-            model.AvatarUrl = _client.User.Get(user).Result.AvatarUrl;
-            model.Repositories = repos.ToList();
-            model.ErrorMessage = String.Empty;
-            Console.WriteLine(model.Repositories.Count);
-            return View(model);
+            _model.Username = user;
+            _model.ErrorMessage = string.Empty;
+            return View(_model);
         }
         catch (NotFoundException)
         {
-            model.ErrorMessage = "User not found";
-            return View(model);
+            _model.ErrorMessage = "User not found";
+            return View(_model);
         }
         catch (RateLimitExceededException)
         {
-            model.ErrorMessage = "Hit rate limit (5,000 requests an hour)";
-            return View(model);
+            _model.ErrorMessage = "Hit rate limit (5,000 requests an hour)";
+            return View(_model);
         }
         catch (AuthorizationException)
         {
-            model.ErrorMessage = "Not authorized";
-            return View(model);
+            _model.ErrorMessage = "Not authorized";
+            return View(_model);
         }
         catch (ArgumentNullException)
         {
-            model.ErrorMessage = "Please enter a valid username";
-            return View(model);
+            _model.ErrorMessage = "Please enter a valid username";
+            return View(_model);
         }
         catch (Exception e)
         {
-            model.ErrorMessage += "Please report this error to kai@devrim.tech";
-            model.ErrorMessage = e.ToString();
-            return View(model);
+            _model.ErrorMessage += "Please report this error to kai@devrim.tech";
+            _model.ErrorMessage = e.ToString();
+            return View(_model);
         }
     }
 
