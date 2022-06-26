@@ -5,9 +5,7 @@ using Octokit;
 
 public class IndexViewModel
 {
-    [Required] public string Username { get; set; } = String.Empty;
-    public List<Repository> Repositories { get; set; } = new();
+    [Required] public string Username { get; set; } = string.Empty;
     public List<Repository> Starred { get; set; } = new();
     public string? ErrorMessage { get; set; } = string.Empty;
-    public string AvatarUrl { get; set; } = String.Empty;
 }
