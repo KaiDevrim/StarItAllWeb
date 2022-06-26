@@ -18,14 +18,14 @@ public class HomeController : Controller
         _config = config;
     }
 
-    public async Task<ActionResult> Index()
+    public IActionResult Index()
     {
         var accessToken = HttpContext.Session.GetString("OAuthToken");
         if (accessToken != null) _client.Credentials = new Credentials(accessToken);
-        if (accessToken == null) return Redirect(GetOauthLoginUrl());
         try
         {
             model.ErrorMessage = string.Empty;
+            model.Starred = new List<Repository>();
             return View(model);
         }
         catch (AuthorizationException)
@@ -66,15 +66,21 @@ public class HomeController : Controller
         var accessToken = HttpContext.Session.GetString("OAuthToken");
         if (accessToken != null) _client.Credentials = new Credentials(accessToken);
         if (accessToken == null) return Redirect(GetOauthLoginUrl());
+        model.Starred = new List<Repository>();
         try
         {
             var repos = await _client.Repository.GetAllForUser(user);
-            foreach (var repo in repos) await _client.Activity.Starring.StarRepo(user, repo.Name);
+            foreach (var repo in repos)
+            {
+                await _client.Activity.Starring.StarRepo(user, repo.Name);
+                model.Starred.Add(repo);
+            }
 
             model.Username = user;
             model.AvatarUrl = _client.User.Get(user).Result.AvatarUrl;
-            model.Repositories = repos;
-            model.ErrorMessage = null;
+            model.Repositories = repos.ToList();
+            model.ErrorMessage = String.Empty;
+            Console.WriteLine(model.Repositories.Count);
             return View(model);
         }
         catch (NotFoundException)
