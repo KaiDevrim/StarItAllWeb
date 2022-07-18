@@ -9,13 +9,16 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="6.0.6" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.2-beta1" />
         <PackageReference Include="Octokit" Version="0.51.0" />
-        <PackageReference Include="Owin.Security.Providers.GitHub" Version="2.26.0" />
     </ItemGroup>
 
     <ItemGroup>
         <_ContentIncludedByDefault Remove="wwwroot\js\site.js" />
+        <_ContentIncludedByDefault Remove="Views\Home\Index.cshtml" />
+        <_ContentIncludedByDefault Remove="Views\Shared\Error.cshtml" />
+        <_ContentIncludedByDefault Remove="Views\_ViewImports.cshtml" />
     </ItemGroup>
 
 </Project>
