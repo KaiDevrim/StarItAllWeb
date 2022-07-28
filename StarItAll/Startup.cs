@@ -1,6 +1,7 @@
 namespace StarItAll;
 
 using System.Security;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 public class Startup
 {
@@ -13,26 +14,35 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        if (Environment.GetEnvironmentVariable("ClientId") == null)
-        {
-            throw new SecurityException("No ClientId set");
-        }
+        services.AddRouting();
 
-        if (Environment.GetEnvironmentVariable("ClientSecret") == null)
-        {
-            throw new SecurityException("No ClientSecret set");
-        }
-        services.AddAuthentication(options => {})
+        services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            })
+
+            .AddCookie(options =>
+            {
+                options.LoginPath = "/signin";
+                options.LogoutPath = "/signout";
+            })
             .AddGitHub(options =>
             {
-                options.ClientId = Environment.GetEnvironmentVariable("ClientId");
-                options.ClientSecret = Environment.GetEnvironmentVariable("ClientSecret");
+                options.ClientId = Configuration["GitHub:ClientId"];
+                options.ClientSecret = Configuration["GitHub:ClientSecret"];
+                options.Scope.Add("user:email");
             });
+        services.AddMvc();
     }
 
     public void Configure(IApplicationBuilder app)
     {
         app.UseAuthentication();
+        app.UseRouting();
         app.UseAuthorization();
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapDefaultControllerRoute();
+        });
     }
 }
