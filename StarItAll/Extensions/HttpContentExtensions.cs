@@ -1,13 +1,12 @@
 namespace StarItAll.Extensions;
+
 using Microsoft.AspNetCore.Authentication;
+
 public static class HttpContextExtensions
 {
     public static async Task<AuthenticationScheme[]> GetExternalProvidersAsync(this HttpContext context)
     {
-        if (context == null)
-        {
-            throw new ArgumentNullException(nameof(context));
-        }
+        if (context == null) throw new ArgumentNullException(nameof(context));
 
         var schemes = context.RequestServices.GetRequiredService<IAuthenticationSchemeProvider>();
 
@@ -18,10 +17,7 @@ public static class HttpContextExtensions
 
     public static async Task<bool> IsProviderSupportedAsync(this HttpContext context, string provider)
     {
-        if (context == null)
-        {
-            throw new ArgumentNullException(nameof(context));
-        }
+        if (context == null) throw new ArgumentNullException(nameof(context));
 
         return (from scheme in await context.GetExternalProvidersAsync()
             where string.Equals(scheme.Name, provider, StringComparison.OrdinalIgnoreCase)

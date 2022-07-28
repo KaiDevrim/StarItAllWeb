@@ -1,21 +1,46 @@
-<div class="jumbotron">
+@model StarItAll.Models.IndexViewModel
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>StarItAll</title>
+    <link href="~/site.css" rel="stylesheet" type="text/css"/>
+    <script src="~/site.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="page">
     @if (User?.Identity?.IsAuthenticated ?? false)
     {
         <h1>Welcome, @User.Identity.Name</h1>
-
-        <p>
-            @foreach (var claim in Context.User.Claims)
+        <h1>StarItAll</h1>
+        <p>Enter a valid GitHub username to star all of their repositories!</p>
+        @using (Html.BeginForm())
+        {
+            <input type="text" name="user" placeholder="KaiDevrim" data-val="true" data-val-length="The field User must be a string with a maximum length of 39."
+                   data-val-length-max="39" data-val-required="The User field is required." maxlength="39" id="input"/>
+            <br/>
+            <input type="submit" id="submit" value="Star It All"/>
+        }
+        @if (Model.ErrorMessage != string.Empty)
+        {
+            <h1>@Model.ErrorMessage</h1>
+        }
+        @if (Model.Starred.Any())
+        {
+            <p>Starred the following repos: </p>
+            @foreach (var repo in Model.Starred)
             {
-                <div><code>@claim.Type</code>: <strong>@claim.Value</strong></div>
+                <a href="@repo.HtmlUrl">@repo.Name</a>
+                <br/>
             }
-        </p>
+        }
 
-        <a class="btn btn-lg btn-danger" href="/signout?returnUrl=%2F">Sign out</a>
+        <a class="" href="/signout?returnUrl=%2F">Sign out</a>
     }
 
     else
     {
-        <h1>Welcome, anonymous</h1>
-        <a class="btn btn-lg btn-success" href="/signin?returnUrl=%2F">Sign in</a>
+        <h1>Please signin to start starring:</h1>
+        <a class="" href="/signin?returnUrl=%2F">Sign in</a>
     }
 </div>
+</body>
