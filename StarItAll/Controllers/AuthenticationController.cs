@@ -4,9 +4,11 @@ using Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Octokit;
 
 public class AuthenticationController : Controller
 {
+    private readonly GitHubClient _client = new(new ProductHeaderValue("StarItAllWeb"));
     [HttpGet("/signin")]
     public async Task<IActionResult> SignIn()
     {

@@ -1,5 +1,9 @@
 namespace StarItAll.Controllers;
 
+using System.Security.Claims;
+using AspNet.Security.OAuth.GitHub;
+using Extensions;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Octokit;
@@ -14,11 +18,12 @@ public class HomeController : Controller
     {
         return View(_model);
     }
-
+    
     [HttpPost]
     public async Task<ActionResult> Index([FromForm] string user)
     {
         _model.Starred = new List<Repository>();
+        _client.Credentials = new Credentials(await HttpContext.GetTokenAsync("access_token"));
         try
         {
             var repos = await _client.Repository.GetAllForUser(user);
@@ -39,7 +44,7 @@ public class HomeController : Controller
         }
         catch (RateLimitExceededException)
         {
-            _model.ErrorMessage = "Hit rate limit (5,000 requests an hour)";
+            _model.ErrorMessage = "Hit rate limit (5,000 requests an hour). Please try again in a bit.";
             return View(_model);
         }
         catch (AuthorizationException)
@@ -55,7 +60,7 @@ public class HomeController : Controller
         catch (Exception e)
         {
             _model.ErrorMessage += "Please report this error to kai@devrim.tech";
-            _model.ErrorMessage = e.ToString();
+            _model.ErrorMessage += e.ToString();
             return View(_model);
         }
     }
