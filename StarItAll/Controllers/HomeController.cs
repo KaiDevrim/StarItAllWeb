@@ -1,67 +1,36 @@
 namespace StarItAll.Controllers;
 
-using System.Security.Claims;
-using AspNet.Security.OAuth.GitHub;
-using Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Octokit;
+using Services;
 
 public class HomeController : Controller
 {
-    private readonly GitHubClient _client = new(new ProductHeaderValue("StarItAllWeb"));
-    private readonly IndexViewModel _model = new();
-    
+    private IndexViewModel _model = new();
+    private readonly StarService _star = new();
     [HttpGet("~/")]
     public ActionResult Index()
     {
         return View(_model);
     }
-    
+
+    public ViewResult Index(IndexViewModel model)
+    {
+        return View(model);
+    }
+
     [HttpPost]
     public async Task<ActionResult> Index([FromForm] string user)
     {
         _model.Starred = new List<Repository>();
-        _client.Credentials = new Credentials(await HttpContext.GetTokenAsync("access_token"));
-        try
+        if (await HttpContext.GetTokenAsync("access_token") == null)
         {
-            var repos = await _client.Repository.GetAllForUser(user);
-            foreach (var repo in repos)
-            {
-                await _client.Activity.Starring.StarRepo(user, repo.Name);
-                _model.Starred.Add(repo);
-            }
-
-            _model.Username = user;
-            _model.ErrorMessage = string.Empty;
-            return View(_model);
+            Redirect("/sigin");
         }
-        catch (NotFoundException)
-        {
-            _model.ErrorMessage = "User not found";
-            return View(_model);
-        }
-        catch (RateLimitExceededException)
-        {
-            _model.ErrorMessage = "Hit rate limit (5,000 requests an hour). Please try again in a bit.";
-            return View(_model);
-        }
-        catch (AuthorizationException)
-        {
-            _model.ErrorMessage = "Not authorized";
-            return View(_model);
-        }
-        catch (ArgumentNullException)
-        {
-            _model.ErrorMessage = "Please enter a valid username";
-            return View(_model);
-        }
-        catch (Exception e)
-        {
-            _model.ErrorMessage += "Please report this error to kai@devrim.tech";
-            _model.ErrorMessage += e.ToString();
-            return View(_model);
-        }
+        string token = await HttpContext.GetTokenAsync("access_token");
+        _model = await _star.Star(user, token);
+        return View(_model);
     }
 }

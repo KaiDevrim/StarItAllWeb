@@ -1,18 +1,18 @@
 namespace StarItAll;
 
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Octokit;
 
 public class Startup
 {
+    private readonly GitHubClient _client = new(new ProductHeaderValue("StarItAllWeb"));
+
     public Startup(IConfiguration configuration)
     {
         Configuration = configuration;
     }
 
     public IConfiguration Configuration { get; }
-    private readonly GitHubClient _client = new(new ProductHeaderValue("StarItAllWeb"));
 
     public void ConfigureServices(IServiceCollection services)
     {

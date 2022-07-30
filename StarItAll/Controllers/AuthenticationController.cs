@@ -9,6 +9,7 @@ using Octokit;
 public class AuthenticationController : Controller
 {
     private readonly GitHubClient _client = new(new ProductHeaderValue("StarItAllWeb"));
+
     [HttpGet("/signin")]
     public async Task<IActionResult> SignIn()
     {

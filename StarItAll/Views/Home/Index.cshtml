@@ -11,15 +11,19 @@
     @if (User?.Identity?.IsAuthenticated ?? false)
     {
         <h1>Welcome, @User.Identity.Name</h1>
+        <a href="/signout?returnUrl=%2F">Sign out</a>
         <h1>StarItAll</h1>
         <p>Enter a valid GitHub username to star all of their repositories!</p>
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("Index", "Home", FormMethod.Post, new {enctype = "multipart/form-data", onsubmit = "submitKai();"}))
         {
             <input type="text" name="user" placeholder="KaiDevrim" data-val="true" data-val-length="The field User must be a string with a maximum length of 39."
                    data-val-length-max="39" data-val-required="The User field is required." maxlength="39" id="input"/>
             <br/>
-            <input type="submit" id="submit" value="Star It All"/>
+            <input type="submit" id="submit" value="Star It All" onclick="submitKai();"/>
         }
+        <p id="starring-status"></p>
+        <div id="loader" class="hidden"></div>
+
         @if (Model.ErrorMessage != string.Empty)
         {
             <h1>@Model.ErrorMessage</h1>
@@ -33,8 +37,6 @@
                 <br/>
             }
         }
-
-        <a class="" href="/signout?returnUrl=%2F">Sign out</a>
     }
 
     else
