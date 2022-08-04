@@ -10,13 +10,13 @@ public class AuthenticationController : Controller
 {
     private readonly GitHubClient _client = new(new ProductHeaderValue("StarItAllWeb"));
 
-    [HttpGet("/signin")]
+    [HttpGet("~/signin")]
     public async Task<IActionResult> SignIn()
     {
         return View("SignIn", await HttpContext.GetExternalProvidersAsync());
     }
 
-    [HttpPost("/signin")]
+    [HttpPost("~/signin")]
     public async Task<IActionResult> SignIn([FromForm] string provider)
     {
         // Note: the "provider" parameter corresponds to the external
@@ -31,8 +31,8 @@ public class AuthenticationController : Controller
         return Challenge(new AuthenticationProperties {RedirectUri = "/"}, provider);
     }
 
-    [HttpGet("/signout")]
-    [HttpPost("/signout")]
+    [HttpGet("~/signout")]
+    [HttpPost("~/signout")]
     public IActionResult SignOutCurrentUser()
     {
         // Instruct the cookies middleware to delete the local cookie created
