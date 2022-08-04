@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.AspNetCore.HttpOverrides;
 using StarItAll;
 
@@ -14,7 +15,18 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
         ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
 });
 
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardLimit = 2;
+    options.KnownProxies.Add(IPAddress.Parse("192.168.80.3"));
+});
+
 var app = builder.Build();
+app.Use((context, next) =>
+{
+    context.Request.Scheme = "https";
+    return next(context);
+});
 startup.Configure(app);
 
 // Configure the HTTP request pipeline.
