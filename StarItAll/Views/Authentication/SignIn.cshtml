@@ -1,5 +1,26 @@
 @model Microsoft.AspNetCore.Authentication.AuthenticationScheme[]
 <head>
+        <meta charset="utf-8"/>
+        <title>StarItAll</title>
+        <!-- Primary Meta Tags -->
+        <meta name="title" content="Star It All">
+        <meta name="description" content="Star every GitHub repository from a user in just one click!">
+        
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Star It All">
+        <meta property="og:description" content="Star every GitHub repository from a user in just one click!">
+        <meta property="og:image" content="https://star.dvr.im/metaimage.png">
+        
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://star.dvr.im/">
+        <meta property="twitter:title" content="Star It All">
+        <meta property="twitter:description" content="Star every GitHub repository from a user in just one click!">
+        <meta property="twitter:image" content="https://star.dvr.im/metaimage.png">
+        
+        <link href="~/site.css" rel="stylesheet" type="text/css"/>
+        <script src="~/site.js" type="text/javascript"></script>
 </head>
 <body>
 <div id="page">
@@ -12,7 +33,7 @@
             <input type="hidden" name="Provider" value="@scheme.Name"/>
             <input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl"/>
 
-            <button class="" type="submit">Connect using @scheme.DisplayName</button>
+            <button id="submit" type="submit">Connect using @scheme.DisplayName</button>
         </form>
     }
 </div>
