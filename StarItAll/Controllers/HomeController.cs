@@ -8,8 +8,9 @@ using Services;
 
 public class HomeController : Controller
 {
-    private IndexViewModel _model = new();
     private readonly StarService _star = new();
+    private IndexViewModel _model = new();
+
     [HttpGet("~/")]
     public ActionResult Index()
     {
@@ -25,11 +26,8 @@ public class HomeController : Controller
     public async Task<ActionResult> Index([FromForm] string user)
     {
         _model.Starred = new List<Repository>();
-        if (await HttpContext.GetTokenAsync("access_token") == null)
-        {
-            Redirect("/sigin");
-        }
-        string token = await HttpContext.GetTokenAsync("access_token");
+        if (await HttpContext.GetTokenAsync("access_token") == null) Redirect("/sigin");
+        var token = await HttpContext.GetTokenAsync("access_token");
         _model = await _star.Star(user, token);
         return View(_model);
     }

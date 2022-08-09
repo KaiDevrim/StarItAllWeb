@@ -14,7 +14,7 @@ public class StarService
         try
         {
             IReadOnlyList<Repository> repos = await _client.Repository.GetAllForUser(user);
-            foreach (Repository repo in repos)
+            foreach (var repo in repos)
             {
                 await _client.Activity.Starring.StarRepo(user, repo.Name);
                 _model.Starred.Add(repo);
