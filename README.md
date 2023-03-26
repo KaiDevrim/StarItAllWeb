@@ -1,4 +1,4 @@
-<p align="center"><img width="64" alt="Star It All Logo" src="./banner.png"></p>
+<p align="center"><img alt="Star It All Logo" src="./banner.png"></p>
 <h1 align="center"><a href="https://staritall.app/">Star It All</a></h1>
 
 Star every GitHub repository from a user in just one click!
