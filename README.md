@@ -6,7 +6,7 @@ Star every GitHub repository from a user in just one click!
 ## Usage
 
 To use, simply just visit the site and login to your GitHub account. Then enter a valid GitHub user or organization name and this app will handle the rest!
-
+![usage gif](./staritall.gif)
 ## Installation
 
 1. [Install .Net 7.0 or greater](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
