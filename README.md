@@ -1,9 +1,7 @@
-<p align="center"><img width="64" alt="Hack Club logo" src="https://star.dvr.im/favicon.ico"></p>
-<h1 align="center"><a href="https://star.dvr.im/">Star It All</a></h1>
+<p align="center"><img width="64" alt="Star It All Logo" src="./banner.png"></p>
+<h1 align="center"><a href="https://staritall.app/">Star It All</a></h1>
 
 Star every GitHub repository from a user in just one click!
-
-![Banner Image](https://star.dvr.im/metaimage.png)
 
 ## Usage
 
@@ -22,7 +20,7 @@ $ dotnet run
 
 Remember to make a GitHub oAuth app and put the ID and Secret in the appsettings.json.
 
-Finally go to [https://localhost:7172/](https://localhost:7172/)
+Finally go to [localhost:7172](https://localhost:7172/)
 
 ## Acknowledgements
 
